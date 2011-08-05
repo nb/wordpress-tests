@@ -59,4 +59,10 @@ class WP_UnitTestCase extends PHPUnit_Framework_TestCase {
 	function assertDiscardWhitespace( $expected, $actual ) {
 		$this->assertEquals( preg_replace( '/\s*/', '', $expected ), preg_replace( '/\s*/', '', $actual ) );
 	}
+
+	function checkAtLeastPHPVersion( $version ) {
+		if ( version_compare( PHP_VERSION, $version, '<' ) ) {
+			$this->markTestSkipped();
+		}
+	}
 }
