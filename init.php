@@ -18,4 +18,4 @@ system( 'php '.escapeshellarg( dirname( __FILE__ ) . '/bin/install.php' ) . ' ' 
 require_once $config_file_path;
 require_once ABSPATH . '/wp-settings.php';
 require dirname( __FILE__ ) . '/lib/testcase.php';
-require dirname( __FILE__ ) . '/lib/testcase-plugin.php';
+require dirname( __FILE__ ) . '/lib/exceptions.php';

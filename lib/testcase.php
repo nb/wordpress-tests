@@ -2,6 +2,7 @@
 class WP_UnitTestCase extends PHPUnit_Framework_TestCase {
 
     var $url = 'http://example.org/';
+	var $plugin_slug = null;
 
 	function setUp() {
 		global $wpdb;
@@ -12,7 +13,21 @@ class WP_UnitTestCase extends PHPUnit_Framework_TestCase {
 		$this->clean_up_global_scope();
 		$this->start_transaction();
 		add_filter( 'gp_get_option_uri', array( $this, 'url_filter') );
+		$this->activate_tested_plugin();
     }
+
+	function activate_tested_plugin() {
+		if ( !$this->plugin_slug ) {
+			return;
+		}
+		require_once ABSPATH . '/wp-admin/includes/plugin.php';
+		if ( file_exists( WP_PLUGIN_DIR . '/' . $this->plugin_slug . '.php' ) )
+			activate_plugin( $this->plugin_slug . '.php' );
+		elseif ( file_exists( WP_PLUGIN_DIR . '/' . $this->plugin_slug . '/' . $this->plugin_slug . '.php' ) )
+			activate_plugin( $this->plugin_slug . '/' . $this->plugin_slug . '.php'  );
+		else
+			throw new WP_Tests_Exception( "Couldn't find a plugin with slug $this->plugin_slug" );
+	}
 
 	function url_filter( $url ) {
 		return $this->url;
