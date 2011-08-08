@@ -1,7 +1,7 @@
 <?php
 require_once dirname( __FILE__ ) . '/init.php';
 
-class WP_Test_Acme extends WP_UnitTestCase {
+class WP_Test_Hello_Dolly extends WP_UnitTestCase {
 
 	var $plugin_slug = 'hello';
 	
