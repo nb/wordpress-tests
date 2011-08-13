@@ -95,6 +95,8 @@ class WP_UnitTestCase extends PHPUnit_Framework_TestCase {
 				$req .= '?' . $parts['query'];
 				// parse the url query vars into $_GET
 				parse_str($parts['query'], $_GET);
+			} else {
+				$parts['query'] = '';
 			}
 		}
 		else {
