@@ -1,5 +1,4 @@
 <?php
-require_once dirname( __FILE__ ) . '/init.php';
 
 class WP_Test_Texturize extends WP_UnitTestCase {
 	function test_dont_texturize_dashes_in_code() {
