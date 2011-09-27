@@ -1,5 +1,4 @@
 <?php
-require_once dirname( __FILE__ ) . '/init.php';
 
 class WP_Is_Email_Test extends WP_UnitTestCase {
 
