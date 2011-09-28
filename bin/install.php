@@ -33,7 +33,7 @@ if ( $installed && file_exists( WP_TESTS_DB_VERSION_FILE ) ) {
 		return;
 	}
 }
-
+$wpdb->query( 'SET storage_engine = INNODB;' );
 $wpdb->query( 'DROP DATABASE IF EXISTS '.DB_NAME.";" );
 $wpdb->query( 'CREATE DATABASE '.DB_NAME.";" );
 $wpdb->select( DB_NAME, $wpdb->dbh );
