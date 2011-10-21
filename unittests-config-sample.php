@@ -16,4 +16,4 @@ define( 'WP_DEBUG_DISPLAY', true );
 /* Cron tries to make an HTTP request to the blog, which always fails, because tests are run in CLI mode only */
 define( 'DISABLE_WP_CRON', true );
 
-$GLOBALS['table_prefix'] = $table_prefix = 'wp_';
+$table_prefix  = 'wp_';
