@@ -1,1 +1,5 @@
-<phpunit bootstrap="./init.php"></phpunit>
+<phpunit bootstrap="./init.php">
+	<php>
+		<ini name="memory_limit" value="-1" />
+	</php>
+</phpunit>
