@@ -48,26 +48,18 @@ echo "Installing…\n";
 wp_install( WP_TESTS_TITLE, 'admin', WP_TESTS_EMAIL, true, '', 'a' );
 
 if ( defined('WP_ALLOW_MULTISITE') && WP_ALLOW_MULTISITE ) {
+	echo "Installing network…\n";
+
 	define( 'WP_INSTALLING_NETWORK', true );
 	//wp_set_wpdb_vars();
 	// We need to create references to ms global tables to enable Network.
 	foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table )
 		$wpdb->$table = $prefixed_table;
 	install_network();
-	$result = populate_network(1, WP_TESTS_DOMAIN, WP_TESTS_EMAIL, WP_TESTS_NETWORK_TITLE, ABSPATH, SUBDOMAIN_INSTALL);
+	$result = populate_network(1, WP_TESTS_DOMAIN, WP_TESTS_EMAIL, WP_TESTS_NETWORK_TITLE, ABSPATH, WP_TESTS_SUBDOMAIN_INSTALL);
 
-	$blogs = explode(',', WP_TESTS_BLOGS);
-	foreach ( $blogs as $blog ) {
-		if ( SUBDOMAIN_INSTALL ) {
-			$newdomain = $blog.'.'.preg_replace( '|^www\.|', '', WP_TESTS_DOMAIN );
-			$path = $base;
-		} else {
-			$newdomain = WP_TESTS_DOMAIN;
-			$path = $base.$blog.'/';
-		}
-		wpmu_create_blog( $newdomain, $path, $blog, email_exists(WP_TESTS_EMAIL) , array( 'public' => 1 ), 1 );
+	system( 'php '.escapeshellarg( dirname( __FILE__ ) . '/ms-install.php' ) . ' ' . escapeshellarg( $config_file_path ) );
 
-	}
 }
 
 file_put_contents( WP_TESTS_DB_VERSION_FILE, get_option('db_version') );
