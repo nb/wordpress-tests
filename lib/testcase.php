@@ -44,25 +44,18 @@ class WP_UnitTestCase extends PHPUnit_Framework_TestCase {
 		$_GET = array();
 		$_POST = array();
 	}
-	
+
 	function start_transaction() {
 		global $wpdb;
 		$wpdb->query( 'SET autocommit = 0;' );
 		$wpdb->query( 'SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;' );
-		$wpdb->query( 'START TRANSACTION;' );		
+		$wpdb->query( 'START TRANSACTION;' );
 	}
 
-	function force_innodb( $schema ) {
-		foreach( $schema as &$sql ) {
-			$sql = str_replace( ');', ') TYPE=InnoDB;', $sql );
-		}
-		return $schema;
-	}
-	
 	function assertWPError( $actual, $message = '' ) {
 		$this->assertTrue( is_wp_error( $actual ), $message );
 	}
-	
+
 	function assertEqualFields( $object, $fields ) {
 		foreach( $fields as $field_name => $field_value ) {
 			if ( $object->$field_name != $field_value ) {
@@ -70,7 +63,7 @@ class WP_UnitTestCase extends PHPUnit_Framework_TestCase {
 			}
 		}
 	}
-	
+
 	function assertDiscardWhitespace( $expected, $actual ) {
 		$this->assertEquals( preg_replace( '/\s*/', '', $expected ), preg_replace( '/\s*/', '', $actual ) );
 	}
