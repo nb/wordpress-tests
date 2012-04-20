@@ -1,7 +1,7 @@
 <?php
 /**
  * Installs WordPress for the purpose of the unit-tests
- * 
+ *
  * @todo Reuse the init/load code in init.php
  */
 error_reporting( E_ALL & ~E_DEPRECATED & ~E_STRICT );
@@ -38,12 +38,6 @@ $wpdb->query( 'DROP DATABASE IF EXISTS '.DB_NAME.";" );
 $wpdb->query( 'CREATE DATABASE '.DB_NAME.";" );
 $wpdb->select( DB_NAME, $wpdb->dbh );
 
-add_filter( 'dbdelta_create_queries', function($queries) {
-	foreach( $queries as &$query ) {
-		$query .= ' ENGINE=InnoDB';
-	}
-	return $queries;
-});
 echo "Installing…\n";
 wp_install( "Baba's blog", 'admin', 'admin@baba.net', true, '', 'a' );
 file_put_contents( WP_TESTS_DB_VERSION_FILE, get_option('db_version') );
