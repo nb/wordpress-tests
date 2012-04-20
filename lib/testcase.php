@@ -1,7 +1,7 @@
 <?php
 class WP_UnitTestCase extends PHPUnit_Framework_TestCase {
 
-    var $url = 'http://example.org/';
+	var $url = 'http://example.org/';
 	var $plugin_slug = null;
 
 	function setUp() {
@@ -12,9 +12,8 @@ class WP_UnitTestCase extends PHPUnit_Framework_TestCase {
 		ini_set('display_errors', 1 );
 		$this->clean_up_global_scope();
 		$this->start_transaction();
-		add_filter( 'gp_get_option_uri', array( $this, 'url_filter') );
 		$this->activate_tested_plugin();
-    }
+	}
 
 	function activate_tested_plugin() {
 		if ( !$this->plugin_slug ) {
@@ -29,14 +28,9 @@ class WP_UnitTestCase extends PHPUnit_Framework_TestCase {
 			throw new WP_Tests_Exception( "Couldn't find a plugin with slug $this->plugin_slug" );
 	}
 
-	function url_filter( $url ) {
-		return $this->url;
-	}
-
 	function tearDown() {
 		global $wpdb;
 		$wpdb->query( 'ROLLBACK' );
-		remove_filter( 'gp_get_option_uri', array( $this, 'url_filter') );
 	}
 
 	function clean_up_global_scope() {
