@@ -9,12 +9,12 @@ error_reporting( E_ALL & ~E_DEPRECATED & ~E_STRICT );
 $config_file_path = $argv[1];
 
 define( 'WP_INSTALLING', true );
+require_once $config_file_path;
 
 $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
-$_SERVER['HTTP_HOST'] = 'example.org';
+$_SERVER['HTTP_HOST'] = WP_TESTS_DOMAIN;
 $PHP_SELF = $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
 
-require_once $config_file_path;
 require_once ABSPATH . '/wp-settings.php';
 
 require_once ABSPATH . '/wp-admin/includes/upgrade.php';
@@ -45,5 +45,21 @@ add_filter( 'dbdelta_create_queries', function($queries) {
 	return $queries;
 });
 echo "Installing…\n";
-wp_install( "Baba's blog", 'admin', 'admin@baba.net', true, '', 'a' );
+wp_install( WP_TESTS_TITLE, 'admin', WP_TESTS_EMAIL, true, '', 'a' );
+
+if ( defined('WP_ALLOW_MULTISITE') && WP_ALLOW_MULTISITE ) {
+	echo "Installing network…\n";
+
+	define( 'WP_INSTALLING_NETWORK', true );
+	//wp_set_wpdb_vars();
+	// We need to create references to ms global tables to enable Network.
+	foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table )
+		$wpdb->$table = $prefixed_table;
+	install_network();
+	$result = populate_network(1, WP_TESTS_DOMAIN, WP_TESTS_EMAIL, WP_TESTS_NETWORK_TITLE, ABSPATH, WP_TESTS_SUBDOMAIN_INSTALL);
+
+	system( 'php '.escapeshellarg( dirname( __FILE__ ) . '/ms-install.php' ) . ' ' . escapeshellarg( $config_file_path ) );
+
+}
+
 file_put_contents( WP_TESTS_DB_VERSION_FILE, get_option('db_version') );
