@@ -42,7 +42,6 @@ class WP_UnitTestCase extends PHPUnit_Framework_TestCase {
 	function start_transaction() {
 		global $wpdb;
 		$wpdb->query( 'SET autocommit = 0;' );
-		$wpdb->query( 'SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;' );
 		$wpdb->query( 'START TRANSACTION;' );
 	}
 
