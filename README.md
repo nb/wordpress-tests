@@ -1,4 +1,6 @@
-This is an alternative testing framework for WordPress. The goal is to build a framework which:
+## Rationale
+
+WordPress already has an automated [testing suite](http://unit-tests.trac.wordpress.org/). What you see here is an alternative testing framework, with the following goals:
 
 * is faster
 * runs every test case in a clean WordPress install
@@ -14,5 +16,3 @@ It uses SQL transactions to clean up automatically after each test.
 2. Edit the config. USE A NEW DATABASE, BECAUSE ALL THE DATA INSIDE WILL BE DELETED.
 3. $ phpunit all
 4. $ phpunit test_test.php
-
-The current, official test suite can be found here: http://unit-tests.trac.wordpress.org/
