@@ -11,8 +11,8 @@ It uses SQL transactions to clean up automatically after each test.
 
 ## Installation
 
-0. Clone the project
-1. Copy unittests-config-sample.php to unittests-config.php
+0. Clone the project.
+1. Copy `unittests-config-sample.php` to `unittests-config.php`.
 2. Edit the config. USE A NEW DATABASE, BECAUSE ALL THE DATA INSIDE WILL BE DELETED.
-3. $ `phpunit all`
-4. $ `phpunit test_test.php`
+3. $ phpunit all
+4. $ phpunit test_test.php
