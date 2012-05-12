@@ -10,14 +10,16 @@ require_once 'PHPUnit/Autoload.php';
 $config_file_path = dirname( __FILE__ ) . '/unittests-config.php';
 
 /*
-Globalize some WordPress variables, because PHPUnit loads this file inside a function
-See: https://github.com/sebastianbergmann/phpunit/issues/325
-
-These are not needed for WordPress 3.3+, only for older versions
+ * Globalize some WordPress variables, because PHPUnit loads this file inside a function
+ * See: https://github.com/sebastianbergmann/phpunit/issues/325
+ *
+ * These are not needed for WordPress 3.3+, only for older versions
 */
 global $table_prefix, $wp_embed, $wp_locale, $_wp_deprecated_widgets_callbacks, $wp_widget_factory;
+
 // These are still needed
-global $wpdb, $current_site, $current_blog, $wp_rewrite;
+global $wpdb, $current_site, $current_blog, $wp_rewrite, $shortcode_tags;
+
 require_once $config_file_path;
 
 $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
