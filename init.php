@@ -18,7 +18,7 @@ $config_file_path = dirname( __FILE__ ) . '/unittests-config.php';
 global $table_prefix, $wp_embed, $wp_locale, $_wp_deprecated_widgets_callbacks, $wp_widget_factory;
 
 // These are still needed
-global $wpdb, $current_site, $current_blog, $wp_rewrite, $shortcode_tags;
+global $wpdb, $current_site, $current_blog, $wp_rewrite, $shortcode_tags, $wp;
 
 require_once $config_file_path;
 
