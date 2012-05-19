@@ -34,7 +34,14 @@ define('SHORTINIT', true);
 // Load the basics part of WordPress.
 require_once ABSPATH . '/wp-settings.php';
 
-// TODO: inject some code here.
+// Load early WordPress hooks defined in the bootstrap file.
+if(isset($GLOBALS['hooks'])) {
+	foreach ($GLOBALS['hooks'] as $function) {
+		$function();
+	}
+
+	unset($GLOBALS['hooks']);
+}
 
 // Load the rest of wp-settings.php, start from where we left off.
 $wp_settings_content = file_get_contents(ABSPATH.'/wp-settings.php');
