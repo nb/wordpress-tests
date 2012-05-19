@@ -40,6 +40,7 @@ require_once ABSPATH . '/wp-settings.php';
 $wp_settings_content = file_get_contents(ABSPATH.'/wp-settings.php');
 $offset = strpos($wp_settings_content, '// Load the l18n library.');
 eval(substr($wp_settings_content, $offset));
+unset($wp_settings_content, $offset);
 
 require dirname( __FILE__ ) . '/lib/testcase.php';
 require dirname( __FILE__ ) . '/lib/exceptions.php';
