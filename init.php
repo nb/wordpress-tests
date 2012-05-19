@@ -28,7 +28,18 @@ $PHP_SELF = $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
 
 system( 'php '.escapeshellarg( dirname( __FILE__ ) . '/bin/install.php' ) . ' ' . escapeshellarg( $config_file_path ) );
 
+// Stop most of WordPress from being loaded.
+define('SHORTINIT', true);
 
+// Load the basics part of WordPress.
 require_once ABSPATH . '/wp-settings.php';
+
+// TODO: inject some code here.
+
+// Load the rest of wp-settings.php, start from where we left off.
+$wp_settings_content = file_get_contents(ABSPATH.'/wp-settings.php');
+$offset = strpos($wp_settings_content, '// Load the l18n library.');
+eval(substr($wp_settings_content, $offset));
+
 require dirname( __FILE__ ) . '/lib/testcase.php';
 require dirname( __FILE__ ) . '/lib/exceptions.php';
