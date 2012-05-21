@@ -34,13 +34,32 @@ define('SHORTINIT', true);
 // Load the basics part of WordPress.
 require_once ABSPATH . '/wp-settings.php';
 
-// Load early WordPress hooks defined in the bootstrap file.
-if(isset($GLOBALS['hooks'])) {
-	foreach ($GLOBALS['hooks'] as $function) {
-		$function();
-	}
+// Load active plugins and theme via ealry hooks defined in bootstarp file.
+if(isset($GLOBALS['wp_tests_config'])) {
+	$config = $GLOBALS['wp_tests_config'];
 
-	unset($GLOBALS['hooks']);
+	foreach ($config as $name => $value) :
+		switch ($name) :
+			case 'plugins':
+				if(!is_array($value)) break;
+
+				add_filter('option_active_plugins', function($plugins) use ($config) {
+					return array_merge($plugins, $config['plugins']);
+				});
+
+				break;
+			
+			case 'template':
+			case 'stylesheet':
+				add_filter("option_{$name}", function($template) use ($config, $name) {
+					return $config[$name];
+				});
+
+				break;
+		endswitch;
+	endforeach;
+
+	unset($GLOBALS['wp_tests_config'], $config);
 }
 
 // Load the rest of wp-settings.php, start from where we left off.
