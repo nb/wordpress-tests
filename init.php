@@ -34,32 +34,17 @@ define('SHORTINIT', true);
 // Load the basics part of WordPress.
 require_once ABSPATH . '/wp-settings.php';
 
-// Load active plugins and theme via ealry hooks defined in bootstarp file.
-if(isset($GLOBALS['wp_tests_config'])) {
-	$config = $GLOBALS['wp_tests_config'];
+// Preset WordPress options defined in bootstarp file.
+// Used to activate theme and plugins.
+if(isset($GLOBALS['wp_tests_options'])) {
+	function wp_tests_options( $value ) {
+		$key = substr( current_filter(), strlen( 'pre_option_' ) );
+		return $GLOBALS['wp_tests_options'][$key];
+	}
 
-	foreach ($config as $name => $value) :
-		switch ($name) :
-			case 'plugins':
-				if(!is_array($value)) break;
-
-				add_filter('option_active_plugins', function($plugins) use ($config) {
-					return array_merge($plugins, $config['plugins']);
-				});
-
-				break;
-			
-			case 'template':
-			case 'stylesheet':
-				add_filter("option_{$name}", function($template) use ($config, $name) {
-					return $config[$name];
-				});
-
-				break;
-		endswitch;
-	endforeach;
-
-	unset($GLOBALS['wp_tests_config'], $config);
+	foreach ( array_keys( $GLOBALS['wp_tests_options'] ) as $key ) {
+		add_filter( 'pre_option_'.$key, 'wp_tests_options' );
+	}
 }
 
 // Load the rest of wp-settings.php, start from where we left off.
