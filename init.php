@@ -49,9 +49,10 @@ if(isset($GLOBALS['wp_tests_options'])) {
 
 // Load the rest of wp-settings.php, start from where we left off.
 $wp_settings_content = file_get_contents(ABSPATH.'/wp-settings.php');
-$offset = strpos($wp_settings_content, '// Load the l18n library.');
+$shortinit_phrase = "if ( SHORTINIT )\n\treturn false;\n";
+$offset = strpos($wp_settings_content, $shortinit_phrase)+strlen($shortinit_phrase);
 eval(substr($wp_settings_content, $offset));
-unset($wp_settings_content, $offset);
+unset($wp_settings_content, $offset, $shortinit_phrase);
 
 require dirname( __FILE__ ) . '/lib/testcase.php';
 require dirname( __FILE__ ) . '/lib/exceptions.php';
