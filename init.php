@@ -28,7 +28,31 @@ $PHP_SELF = $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
 
 system( 'php '.escapeshellarg( dirname( __FILE__ ) . '/bin/install.php' ) . ' ' . escapeshellarg( $config_file_path ) );
 
+// Stop most of WordPress from being loaded.
+define('SHORTINIT', true);
 
+// Load the basics part of WordPress.
 require_once ABSPATH . '/wp-settings.php';
+
+// Preset WordPress options defined in bootstarp file.
+// Used to activate theme and plugins.
+if(isset($GLOBALS['wp_tests_options'])) {
+	function wp_tests_options( $value ) {
+		$key = substr( current_filter(), strlen( 'pre_option_' ) );
+		return $GLOBALS['wp_tests_options'][$key];
+	}
+
+	foreach ( array_keys( $GLOBALS['wp_tests_options'] ) as $key ) {
+		add_filter( 'pre_option_'.$key, 'wp_tests_options' );
+	}
+}
+
+// Load the rest of wp-settings.php, start from where we left off.
+$wp_settings_content = file_get_contents(ABSPATH.'/wp-settings.php');
+$shortinit_phrase = "if ( SHORTINIT )\n\treturn false;\n";
+$offset = strpos($wp_settings_content, $shortinit_phrase)+strlen($shortinit_phrase);
+eval(substr($wp_settings_content, $offset));
+unset($wp_settings_content, $offset, $shortinit_phrase);
+
 require dirname( __FILE__ ) . '/lib/testcase.php';
 require dirname( __FILE__ ) . '/lib/exceptions.php';
