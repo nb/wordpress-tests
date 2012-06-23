@@ -38,11 +38,11 @@ $wpdb->query( 'DROP DATABASE IF EXISTS '.DB_NAME.";" );
 $wpdb->query( 'CREATE DATABASE '.DB_NAME.";" );
 $wpdb->select( DB_NAME, $wpdb->dbh );
 
-echo "Installing…\n";
+echo "Installing…" . PHP_EOL;
 wp_install( WP_TESTS_TITLE, 'admin', WP_TESTS_EMAIL, true, '', 'a' );
 
 if ( defined('WP_ALLOW_MULTISITE') && WP_ALLOW_MULTISITE ) {
-	echo "Installing network…\n";
+	echo "Installing network…" .PHP_EOL;
 
 	define( 'WP_INSTALLING_NETWORK', true );
 	//wp_set_wpdb_vars();

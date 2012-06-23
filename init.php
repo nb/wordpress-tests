@@ -48,8 +48,8 @@ if(isset($GLOBALS['wp_tests_options'])) {
 }
 
 // Load the rest of wp-settings.php, start from where we left off.
-$wp_settings_content = file_get_contents(ABSPATH.'/wp-settings.php');
-$shortinit_phrase = "if ( SHORTINIT )\n\treturn false;\n";
+$wp_settings_content = file_get_contents(ABSPATH . '/wp-settings.php');
+$shortinit_phrase = "if ( SHORTINIT )" . PHP_EOL . "\treturn false;" . PHP_EOL;
 $offset = strpos($wp_settings_content, $shortinit_phrase)+strlen($shortinit_phrase);
 eval(substr($wp_settings_content, $offset));
 unset($wp_settings_content, $offset, $shortinit_phrase);
