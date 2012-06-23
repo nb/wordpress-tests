@@ -38,3 +38,5 @@ if ( WP_ALLOW_MULTISITE && !defined('WP_INSTALLING') ) {
 }
 
 $table_prefix  = 'wp_';
+
+define( 'WP_PHP_BINARY', 'php' );
