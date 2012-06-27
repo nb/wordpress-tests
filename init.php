@@ -26,7 +26,7 @@ $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
 $_SERVER['HTTP_HOST'] = WP_TESTS_DOMAIN;
 $PHP_SELF = $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
 
-system( 'php '.escapeshellarg( dirname( __FILE__ ) . '/bin/install.php' ) . ' ' . escapeshellarg( $config_file_path ) );
+system( WP_PHP_BINARY . ' ' . escapeshellarg( dirname( __FILE__ ) . '/bin/install.php' ) . ' ' . escapeshellarg( $config_file_path ) );
 
 // Stop most of WordPress from being loaded.
 define('SHORTINIT', true);
@@ -48,8 +48,8 @@ if(isset($GLOBALS['wp_tests_options'])) {
 }
 
 // Load the rest of wp-settings.php, start from where we left off.
-$wp_settings_content = file_get_contents(ABSPATH.'/wp-settings.php');
-$shortinit_phrase = "if ( SHORTINIT )\n\treturn false;\n";
+$wp_settings_content = file_get_contents(ABSPATH . '/wp-settings.php');
+$shortinit_phrase = "if ( SHORTINIT )" . PHP_EOL . "\treturn false;" . PHP_EOL;
 $offset = strpos($wp_settings_content, $shortinit_phrase)+strlen($shortinit_phrase);
 eval(substr($wp_settings_content, $offset));
 unset($wp_settings_content, $offset, $shortinit_phrase);

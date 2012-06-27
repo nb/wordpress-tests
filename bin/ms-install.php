@@ -20,7 +20,7 @@ require_once ABSPATH . '/wp-settings.php';
 require_once ABSPATH . '/wp-admin/includes/upgrade.php';
 require_once ABSPATH . '/wp-includes/wp-db.php';
 
-echo "Installing sites…\n";
+echo "Installing sites…" . PHP_EOL;
 wp_install( WP_TESTS_TITLE, 'admin', WP_TESTS_EMAIL, true, '', 'a' );
 
 if ( defined('WP_ALLOW_MULTISITE') && WP_ALLOW_MULTISITE ) {
