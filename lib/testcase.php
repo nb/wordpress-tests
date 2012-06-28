@@ -17,9 +17,21 @@ class WP_UnitTestCase extends PHPUnit_Framework_TestCase {
 	}
 
 	function clean_up_global_scope() {
-		wp_cache_flush();
 		$_GET = array();
 		$_POST = array();
+		$this->flush_cache();
+	}
+
+	function flush_cache() {
+		global $wp_object_cache;
+		$wp_object_cache->group_ops = array();
+		$wp_object_cache->stats = array();
+		$wp_object_cache->memcache_debug = array();
+		$wp_object_cache->cache = array();
+		if ( method_exists( $wp_object_cache, '__remoteset' ) ) {
+			$wp_object_cache->__remoteset();
+		}
+		wp_cache_flush();
 	}
 
 	function start_transaction() {
@@ -76,7 +88,7 @@ class WP_UnitTestCase extends PHPUnit_Framework_TestCase {
 		$_SERVER['REQUEST_URI'] = $req;
 		unset($_SERVER['PATH_INFO']);
 
-		wp_cache_flush();
+		$this->flush_cache();
 		unset($GLOBALS['wp_query'], $GLOBALS['wp_the_query']);
 		$GLOBALS['wp_the_query'] =& new WP_Query();
 		$GLOBALS['wp_query'] =& $GLOBALS['wp_the_query'];
