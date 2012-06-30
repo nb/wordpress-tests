@@ -8,8 +8,11 @@ error_reporting( E_ALL & ~E_DEPRECATED & ~E_STRICT );
 
 $config_file_path = $argv[1];
 
+$config_dir = dirname( $config_file_path );
+
 define( 'WP_INSTALLING', true );
 require_once $config_file_path;
+require_once $config_dir . '/lib/functions.php';
 
 $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
 $_SERVER['HTTP_HOST'] = WP_TESTS_DOMAIN;
@@ -20,16 +23,15 @@ require_once ABSPATH . '/wp-settings.php';
 require_once ABSPATH . '/wp-admin/includes/upgrade.php';
 require_once ABSPATH . '/wp-includes/wp-db.php';
 
-define( 'WP_TESTS_DB_VERSION_FILE', ABSPATH . '.wp-tests-db-version' );
+define( 'WP_TESTS_VERSION_FILE', ABSPATH . '.wp-tests-version' );
 
 $wpdb->suppress_errors();
 $wpdb->hide_errors();
 $installed = $wpdb->get_var( "SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'" );
 
-if ( $installed && file_exists( WP_TESTS_DB_VERSION_FILE ) ) {
-	$install_db_version = file_get_contents( WP_TESTS_DB_VERSION_FILE );
-	$db_version = get_option( 'db_version' );
-	if ( $db_version == $install_db_version ) {
+if ( $installed && file_exists( WP_TESTS_VERSION_FILE ) ) {
+	$installed_version_hash = file_get_contents( WP_TESTS_VERSION_FILE );
+	if ( $installed_version_hash == test_version_check_hash() ) {
 		return;
 	}
 }
@@ -56,4 +58,4 @@ if ( defined('WP_ALLOW_MULTISITE') && WP_ALLOW_MULTISITE ) {
 
 }
 
-file_put_contents( WP_TESTS_DB_VERSION_FILE, get_option('db_version') );
+file_put_contents( WP_TESTS_VERSION_FILE, test_version_check_hash() );
