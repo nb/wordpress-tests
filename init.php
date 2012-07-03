@@ -20,6 +20,8 @@ global $table_prefix, $wp_embed, $wp_locale, $_wp_deprecated_widgets_callbacks, 
 // These are still needed
 global $wpdb, $current_site, $current_blog, $wp_rewrite, $shortcode_tags, $wp;
 
+define( 'WPMU_PLUGIN_DIR', dirname( __FILE__ ) . '/mu-plugins' );
+
 require_once $config_file_path;
 
 $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
