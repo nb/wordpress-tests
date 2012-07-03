@@ -32,19 +32,6 @@ system( WP_PHP_BINARY . ' ' . escapeshellarg( dirname( __FILE__ ) . '/bin/instal
 
 require dirname( __FILE__ ) . '/lib/functions.php';
 
-// Preset WordPress options defined in bootstrap file.
-// Used to activate themes, plugins, as well as  other settings.
-if(isset($GLOBALS['wp_tests_options'])) {
-	function wp_tests_options( $value ) {
-		$key = substr( current_filter(), strlen( 'pre_option_' ) );
-		return $GLOBALS['wp_tests_options'][$key];
-	}
-
-	foreach ( array_keys( $GLOBALS['wp_tests_options'] ) as $key ) {
-		tests_add_filter( 'pre_option_'.$key, 'wp_tests_options' );
-	}
-}
-
 // Load WordPress
 require_once ABSPATH . '/wp-settings.php';
 

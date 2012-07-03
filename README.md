@@ -9,11 +9,6 @@ WordPress already has an automated [testing suite](http://unit-tests.trac.wordpr
 
 It uses SQL transactions to clean up automatically after each test.
 
-## Requirements
-
-* WordPress 3.5-alpha
-* phpunit
-
 ## Installation
 
 0. Clone the project.
