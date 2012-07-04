@@ -1,3 +1,7 @@
+## Current Status
+
+The framework is currently [being ported](http://unit-test.trac.wordpress.org/ticket/42) to the official testing suite.
+
 ## Rationale
 
 WordPress already has an automated [testing suite](http://unit-tests.trac.wordpress.org/). What you see here is an alternative testing framework, with the following goals:
