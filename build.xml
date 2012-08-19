@@ -8,7 +8,7 @@
 		<mkdir dir="build/phpunitreport" />
 	</target>
 	<target name="phpunit">
-		<phpunit bootstrap="init.php" printsummary="true" haltonfailure="false">
+		<phpunit bootstrap="bootstrap.php" printsummary="true" haltonfailure="false">
 			<formatter todir="build/logs" type="xml" outfile="junit.xml" />
 			<batchtest>
 				<fileset dir=".">
